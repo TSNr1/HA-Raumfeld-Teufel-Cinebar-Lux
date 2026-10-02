@@ -160,6 +160,22 @@ class DefinitionsTest(unittest.TestCase):
         self.assertEqual(defs.option_value(defs.INPUT_SOURCES, "Unbekannt (9)"), 9)
         self.assertEqual(defs.option_value(defs.SOUND_MODES, "Nacht"), 2)
 
+    def test_input_sources(self):
+        self.assertEqual(defs.INPUT_SOURCES[3], "TV")
+        self.assertEqual(defs.INPUT_SOURCES[4], "HDMI")
+        self.assertEqual(sorted(defs.INPUT_SOURCES), [0, 1, 2, 3, 4])
+
+    def test_number_scaling(self):
+        self.assertEqual(defs.raw_to_display(3, 20), 60)
+        self.assertEqual(defs.display_to_raw(100, 20), 5)
+        self.assertEqual(defs.raw_to_display(46, 0.1), 4.6)
+        self.assertEqual(defs.display_to_raw(4.6, 0.1), 46)
+        self.assertEqual(defs.display_to_raw(0.3, 0.1), 3)
+        self.assertEqual(defs.display_to_raw(12.0, 0.1), 120)
+        self.assertIsNone(defs.raw_to_display(None, 20))
+        vmin, vmax, step, *_rest, factor = defs.NUMBERS["lip_sync"]
+        self.assertEqual((vmin, vmax, step, factor), (0, 100, 20, 20))
+
     def test_bluetooth(self):
         self.assertEqual(defs.bluetooth_state({"connected": False, "device": None, "pairing": False, "ready": True}), "ready")
         self.assertEqual(defs.bluetooth_state({"connected": False, "pairing": True, "ready": True}), "pairing")

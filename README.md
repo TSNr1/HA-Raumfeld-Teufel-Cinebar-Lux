@@ -12,7 +12,7 @@ Ergänzt die Cinebar Lux um alle Einstellungen, die die Raumfeld-App kennt – l
 
 | Bereich | Entitäten |
 |---|---|
-| Hauptfunktionen | Eingang (TV, HDMI), Klang-Modus (Pur, Sprache, Nacht), Dynamore, Dynamikkompression (DRC), Lip Sync (0–5) |
+| Hauptfunktionen | Eingang (Analog, Optisch, Teufel Streaming, TV, HDMI), Klang-Modus (Pur, Sprache, Nacht), Dynamore, Dynamikkompression (DRC), Lip Sync (0–100 ms) |
 | Konfiguration | Rear-Stereo-Upmix, HDMI-CEC, Auto-Einschalten (optisch/AUX), Auto-Standby, Subwoofer-Pegel/-Abstand/-Phase, Soundbar-Abstand, Rear-Pegel/-Abstand, LED- und Display-Helligkeit, Display-Sprache |
 | Sensoren | Bluetooth (verbunden / Pairing / bereit / aus, mit Gerätename), gekoppelte externe Lautsprecher, Hardware-ID, Verbindungsstatus |
 
@@ -22,6 +22,9 @@ Die Raumfeld-App steuert die Bar über einen WebSocket (WAMP v2, Port 55555) am 
 
 ## Noch offen
 
-- Weitere Eingänge und Modi: Beobachtet und benannt sind Eingang 3 = TV, 4 = HDMI und Modus 0 = Pur, 2 = Nacht (1 = Sprache ist angenommen). Andere Werte erscheinen als „Unbekannt (n)“ und lassen sich trotzdem setzen. Bitte melden, welche Zahl zu welchem Eingang gehört.
-- Wertebereiche der Zahlenfelder (Pegel, Abstände, Helligkeit) sind vorsichtig geschätzt; die Einheiten der Abstände sind nicht bestätigt.
-- Bluetooth-Pairing starten: Der Aufruf wurde noch nicht mitgeschnitten, daher gibt es noch keine Taste dafür.
+- **Eingänge:** Bestätigt sind 3 = TV und 4 = HDMI. Analog (0), Optisch (1) und Teufel Streaming (2) sind in der Reihenfolge der Raumfeld-App zugeordnet und noch nicht gegengeprüft. Andere Werte erscheinen als „Unbekannt (n)“ und lassen sich trotzdem setzen.
+- **Modi:** 0 = Pur, 1 = Sprache, 2 = Nacht.
+- **Lip Sync:** Die Stufen 0 bis 5 entsprechen 0 bis 100 ms (20 ms je Stufe, angenommen).
+- **Abstände:** Soundbar 0,3 bis 12 m bestätigt; die Rohwerte werden in Schritten von 0,1 m gelesen (angenommen). Subwoofer- und Rear-Abstände nutzen dieselbe Skala.
+- **Wertebereiche:** Pegel und Helligkeiten sind vorsichtig geschätzt.
+- **Bluetooth-Pairing starten:** Der Aufruf wurde noch nicht mitgeschnitten, daher gibt es noch keine Taste dafür.

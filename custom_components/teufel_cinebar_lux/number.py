@@ -3,7 +3,7 @@ from __future__ import annotations
 from homeassistant.components.number import NumberEntity, NumberMode
 from homeassistant.const import EntityCategory
 
-from .definitions import NUMBERS
+from .definitions import NUMBERS, display_to_raw, raw_to_display
 from .entity import CinebarEntity
 
 
@@ -15,8 +15,9 @@ async def async_setup_entry(hass, entry, async_add_entities):
 class CinebarNumber(CinebarEntity, NumberEntity):
     _attr_mode = NumberMode.BOX
 
-    def __init__(self, hub, entry, key, vmin, vmax, step, unit, enabled, config_category) -> None:
+    def __init__(self, hub, entry, key, vmin, vmax, step, unit, enabled, config_category, factor) -> None:
         super().__init__(hub, entry, key)
+        self._factor = factor
         self._attr_native_min_value = vmin
         self._attr_native_max_value = vmax
         self._attr_native_step = step
@@ -29,7 +30,7 @@ class CinebarNumber(CinebarEntity, NumberEntity):
 
     @property
     def native_value(self):
-        return self.value
+        return raw_to_display(self.value, self._factor)
 
     async def async_set_native_value(self, value: float) -> None:
-        await self.hub.async_set(self.setting, int(value))
+        await self.hub.async_set(self.setting, display_to_raw(value, self._factor))
