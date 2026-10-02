@@ -1,0 +1,15 @@
+{
+  "domain": "teufel_cinebar_lux",
+  "name": "Teufel Cinebar Lux",
+  "codeowners": [
+    "@TSNr1"
+  ],
+  "config_flow": true,
+  "dependencies": [],
+  "documentation": "https://github.com/TSNr1/ha-raumfeld-teufel-cinebar-lux",
+  "integration_type": "device",
+  "iot_class": "local_push",
+  "issue_tracker": "https://github.com/TSNr1/ha-raumfeld-teufel-cinebar-lux/issues",
+  "requirements": [],
+  "version": "0.1.0"
+}

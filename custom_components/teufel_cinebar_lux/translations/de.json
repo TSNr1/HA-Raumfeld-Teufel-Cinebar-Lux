@@ -1,0 +1,128 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Teufel Cinebar Lux",
+        "description": "IP-Adresse des Raumfeld-Hosts (z. B. der Cinebar) eingeben.",
+        "data": {
+          "host": "Host / IP-Adresse"
+        }
+      },
+      "player": {
+        "title": "Gerät wählen",
+        "data": {
+          "player_uuid": "Gerät"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Keine Verbindung zum Raumfeld-Host (Port 55555).",
+      "no_players": "Keine Geräte gefunden."
+    },
+    "abort": {
+      "already_configured": "Dieses Gerät ist bereits eingerichtet."
+    }
+  },
+  "entity": {
+    "switch": {
+      "audio_dynamore": {
+        "name": "Dynamore"
+      },
+      "audio_dynamic_range_control": {
+        "name": "Dynamikkompression (DRC)"
+      },
+      "rears_stereo_upmix": {
+        "name": "Rear-Stereo-Upmix"
+      },
+      "cec": {
+        "name": "HDMI-CEC"
+      },
+      "auto_on_opt": {
+        "name": "Automatisch einschalten (optisch)"
+      }
+    },
+    "select": {
+      "audio_input_source": {
+        "name": "Eingang"
+      },
+      "sound_mode": {
+        "name": "Klang-Modus"
+      },
+      "subwoofer_phase": {
+        "name": "Subwoofer-Phase"
+      }
+    },
+    "number": {
+      "lip_sync": {
+        "name": "Lip Sync"
+      },
+      "subwoofer_volume_adjustment": {
+        "name": "Subwoofer-Pegel"
+      },
+      "subwoofer_distance": {
+        "name": "Subwoofer-Abstand"
+      },
+      "soundbar_distance": {
+        "name": "Soundbar-Abstand"
+      },
+      "rears_level_left": {
+        "name": "Rear-Pegel links"
+      },
+      "rears_level_right": {
+        "name": "Rear-Pegel rechts"
+      },
+      "rears_distance_left": {
+        "name": "Rear-Abstand links"
+      },
+      "rears_distance_right": {
+        "name": "Rear-Abstand rechts"
+      },
+      "led_brightness": {
+        "name": "LED-Helligkeit"
+      },
+      "display_max_brightness": {
+        "name": "Display-Helligkeit max."
+      },
+      "display_min_brightness": {
+        "name": "Display-Helligkeit min."
+      },
+      "auto_standby_delay": {
+        "name": "Auto-Standby nach"
+      },
+      "auto_on_aux": {
+        "name": "Automatisch einschalten (AUX)"
+      },
+      "display_language": {
+        "name": "Display-Sprache"
+      }
+    },
+    "sensor": {
+      "bluetooth_status": {
+        "name": "Bluetooth",
+        "state": {
+          "connected": "Verbunden",
+          "pairing": "Pairing aktiv",
+          "ready": "Bereit",
+          "off": "Aus"
+        }
+      },
+      "hardware_id": {
+        "name": "Hardware-ID"
+      }
+    },
+    "binary_sensor": {
+      "connection": {
+        "name": "Verbindung"
+      },
+      "external_subwoofer": {
+        "name": "Subwoofer gekoppelt"
+      },
+      "external_rear_left": {
+        "name": "Rear links gekoppelt"
+      },
+      "external_rear_right": {
+        "name": "Rear rechts gekoppelt"
+      }
+    }
+  }
+}
