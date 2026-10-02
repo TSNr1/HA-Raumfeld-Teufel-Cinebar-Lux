@@ -30,7 +30,7 @@ class CinebarNumber(CinebarEntity, NumberEntity):
 
     @property
     def native_value(self):
-        return raw_to_display(self.value, self._factor)
+        return raw_to_display(self.raw_value, self._factor)
 
     async def async_set_native_value(self, value: float) -> None:
         await self.hub.async_set(self.setting, display_to_raw(value, self._factor))

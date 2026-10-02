@@ -12,8 +12,8 @@ CONF_NAME = "name"
 CINEBAR_LUX_TYPE = 27  # "type" im Raumfeld-Host / hardware_id der Cinebar Lux
 
 # Auswahllisten: Wert -> Anzeigename. Unbekannte Werte werden dynamisch ergänzt.
-# 3 = TV und 4 = HDMI sind beobachtet; 0, 1 und 2 sind in Listenreihenfolge zugeordnet (noch zu bestätigen)
-INPUT_SOURCES = {0: "Analog", 1: "Optisch", 2: "Teufel Streaming", 3: "TV", 4: "HDMI"}
+# Zuordnung am Gerät gegengeprüft (0 = Teufel Streaming, 1 = Analog, 2 = Optisch, 3 = TV, 4 = HDMI)
+INPUT_SOURCES = {0: "Teufel Streaming", 1: "Analog", 2: "Optisch", 3: "TV", 4: "HDMI"}
 SOUND_MODES = {0: "Pur", 1: "Sprache", 2: "Nacht"}
 SUBWOOFER_PHASES = {0: "0°", 180: "180°"}
 

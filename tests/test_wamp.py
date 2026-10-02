@@ -164,6 +164,9 @@ class DefinitionsTest(unittest.TestCase):
         self.assertEqual(defs.INPUT_SOURCES[3], "TV")
         self.assertEqual(defs.INPUT_SOURCES[4], "HDMI")
         self.assertEqual(sorted(defs.INPUT_SOURCES), [0, 1, 2, 3, 4])
+        self.assertEqual(defs.INPUT_SOURCES[0], "Teufel Streaming")
+        self.assertEqual(defs.INPUT_SOURCES[1], "Analog")
+        self.assertEqual(defs.INPUT_SOURCES[2], "Optisch")
 
     def test_number_scaling(self):
         self.assertEqual(defs.raw_to_display(37, 1), 37)
@@ -175,6 +178,13 @@ class DefinitionsTest(unittest.TestCase):
         self.assertIsNone(defs.raw_to_display(None, 20))
         vmin, vmax, step, *_rest, factor = defs.NUMBERS["lip_sync"]
         self.assertEqual((vmin, vmax, step, factor), (0, 100, 1, 1))
+
+    def test_no_value_property_clash(self):
+        """`value` ist bei Home-Assistant-Entitäten (z. B. Number) reserviert und darf nicht überschrieben werden."""
+        for name in os.listdir(ROOT):
+            if name.endswith(".py"):
+                src = open(os.path.join(ROOT, name)).read()
+                self.assertNotIn("def value(", src, name)
 
     def test_bluetooth(self):
         self.assertEqual(defs.bluetooth_state({"connected": False, "device": None, "pairing": False, "ready": True}), "ready")

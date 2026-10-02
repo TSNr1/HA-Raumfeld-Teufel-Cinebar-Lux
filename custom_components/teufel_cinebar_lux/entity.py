@@ -27,10 +27,10 @@ class CinebarEntity(Entity):
 
     @property
     def available(self) -> bool:
-        return self.hub.available and self.value is not None
+        return self.hub.available and self.raw_value is not None
 
     @property
-    def value(self):
+    def raw_value(self):
         return self.hub.values.get(self.setting)
 
     async def async_added_to_hass(self) -> None:

@@ -20,7 +20,7 @@ class CinebarSwitch(CinebarEntity, SwitchEntity):
 
     @property
     def is_on(self):
-        return None if self.value is None else bool(self.value)
+        return None if self.raw_value is None else bool(self.raw_value)
 
     async def async_turn_on(self, **kwargs) -> None:
         await self.hub.async_set(self.setting, True)

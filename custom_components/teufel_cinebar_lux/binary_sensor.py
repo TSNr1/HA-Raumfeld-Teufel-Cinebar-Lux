@@ -47,8 +47,8 @@ class CinebarExternalSpeaker(CinebarEntity, BinarySensorEntity):
 
     @property
     def available(self) -> bool:
-        return self.hub.available and isinstance(self.value, dict)
+        return self.hub.available and isinstance(self.raw_value, dict)
 
     @property
     def is_on(self):
-        return bool(self.value.get(self._raw)) if isinstance(self.value, dict) else None
+        return bool(self.raw_value.get(self._raw)) if isinstance(self.raw_value, dict) else None

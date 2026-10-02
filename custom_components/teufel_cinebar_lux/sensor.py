@@ -21,11 +21,11 @@ class CinebarBluetooth(CinebarEntity, SensorEntity):
 
     @property
     def native_value(self):
-        return bluetooth_state(self.value)
+        return bluetooth_state(self.raw_value)
 
     @property
     def extra_state_attributes(self):
-        value = self.value if isinstance(self.value, dict) else {}
+        value = self.raw_value if isinstance(self.raw_value, dict) else {}
         return {"device": value.get("device")}
 
 
@@ -38,4 +38,4 @@ class CinebarHardwareId(CinebarEntity, SensorEntity):
 
     @property
     def native_value(self):
-        return self.value
+        return self.raw_value

@@ -25,14 +25,14 @@ class CinebarSelect(CinebarEntity, SelectEntity):
     @property
     def options(self) -> list[str]:
         labels = list(self._mapping.values())
-        current = option_label(self._mapping, self.value)
+        current = option_label(self._mapping, self.raw_value)
         if current and current not in labels:
             labels.append(current)
         return labels
 
     @property
     def current_option(self) -> str | None:
-        return option_label(self._mapping, self.value)
+        return option_label(self._mapping, self.raw_value)
 
     async def async_select_option(self, option: str) -> None:
         await self.hub.async_set(self.setting, option_value(self._mapping, option))
