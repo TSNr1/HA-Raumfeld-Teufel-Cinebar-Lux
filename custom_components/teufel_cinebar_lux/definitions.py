@@ -34,9 +34,9 @@ SELECTS = {
 }
 
 # key -> (min, max, step, Einheit, Standard aktiv?, Konfigurationskategorie?, Faktor)
-# Faktor: angezeigter Wert = Rohwert * Faktor (Lip Sync: 20 ms je Stufe; Abstände: 0,1 m je Schritt)
+# Faktor: angezeigter Wert = Rohwert * Faktor (Lip Sync: direkt in ms; Abstände: 0,1 m je Schritt)
 NUMBERS = {
-    "lip_sync": (0, 100, 20, "ms", True, False, 20),
+    "lip_sync": (0, 100, 1, "ms", True, False, 1),
     "subwoofer_volume_adjustment": (-10, 10, 1, None, True, True, 1),
     "subwoofer_distance": (0.3, 12.0, 0.1, "m", True, True, 0.1),
     "soundbar_distance": (0.3, 12.0, 0.1, "m", True, True, 0.1),

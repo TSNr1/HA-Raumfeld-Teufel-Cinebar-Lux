@@ -24,7 +24,7 @@ Die Raumfeld-App steuert die Bar über einen WebSocket (WAMP v2, Port 55555) am 
 
 - **Eingänge:** Bestätigt sind 3 = TV und 4 = HDMI. Analog (0), Optisch (1) und Teufel Streaming (2) sind in der Reihenfolge der Raumfeld-App zugeordnet und noch nicht gegengeprüft. Andere Werte erscheinen als „Unbekannt (n)“ und lassen sich trotzdem setzen.
 - **Modi:** 0 = Pur, 1 = Sprache, 2 = Nacht.
-- **Lip Sync:** Die Stufen 0 bis 5 entsprechen 0 bis 100 ms (20 ms je Stufe, angenommen).
+- **Lip Sync:** 0 bis 100 ms in 1-ms-Schritten, der Wert geht direkt an die Cinebar.
 - **Abstände:** Soundbar 0,3 bis 12 m bestätigt; die Rohwerte werden in Schritten von 0,1 m gelesen (angenommen). Subwoofer- und Rear-Abstände nutzen dieselbe Skala.
 - **Wertebereiche:** Pegel und Helligkeiten sind vorsichtig geschätzt.
 - **Bluetooth-Pairing starten:** Der Aufruf wurde noch nicht mitgeschnitten, daher gibt es noch keine Taste dafür.

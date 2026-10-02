@@ -166,15 +166,15 @@ class DefinitionsTest(unittest.TestCase):
         self.assertEqual(sorted(defs.INPUT_SOURCES), [0, 1, 2, 3, 4])
 
     def test_number_scaling(self):
-        self.assertEqual(defs.raw_to_display(3, 20), 60)
-        self.assertEqual(defs.display_to_raw(100, 20), 5)
+        self.assertEqual(defs.raw_to_display(37, 1), 37)
+        self.assertEqual(defs.display_to_raw(100, 1), 100)
         self.assertEqual(defs.raw_to_display(46, 0.1), 4.6)
         self.assertEqual(defs.display_to_raw(4.6, 0.1), 46)
         self.assertEqual(defs.display_to_raw(0.3, 0.1), 3)
         self.assertEqual(defs.display_to_raw(12.0, 0.1), 120)
         self.assertIsNone(defs.raw_to_display(None, 20))
         vmin, vmax, step, *_rest, factor = defs.NUMBERS["lip_sync"]
-        self.assertEqual((vmin, vmax, step, factor), (0, 100, 20, 20))
+        self.assertEqual((vmin, vmax, step, factor), (0, 100, 1, 1))
 
     def test_bluetooth(self):
         self.assertEqual(defs.bluetooth_state({"connected": False, "device": None, "pairing": False, "ready": True}), "ready")
