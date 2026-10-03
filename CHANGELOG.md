@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.2.1
+
+Der Media Player zeigt jetzt nur noch dann Wiedergabe-Steuerung an, wenn sie Sinn ergibt. Läuft die Cinebar auf TV, HDMI, Analog oder Optisch, steht sie als „An“ da und bietet Lautstärke, Stumm, Quelle und Ein/Aus, aber kein Play, Pause oder Titel vor und zurück, denn dort gibt es nichts zu steuern. Vorher stand sie dort „Pausiert“, und Play lieferte den Fehler „Action Play is currently not allowed“. Die Wiedergabe-Befehle gibt es am Eingang „Teufel Streaming“.
+
+Startest du aus Home Assistant etwas aus der Mediathek oder eine URL, schaltet die Bar vorher selbst auf „Teufel Streaming“ um. Nach einer Ansage wird auch der vorherige Eingang wiederhergestellt, wenn er gewechselt wurde. Fehlermeldungen bei nicht erlaubten Befehlen sind jetzt verständlich formuliert.
+
 ## 0.2.0
 
 Die Integration ersetzt jetzt auch die Integration „Teufel Raumfeld“ für die Cinebar: Es gibt einen vollwertigen Media Player. Er zeigt Status, Lautstärke, Stumm, Titel, Interpret, Album, Cover und Position und steuert Play, Pause, Stop, Titel vor und zurück, Springen, Lautstärke und Stumm. Außerdem lässt sich die Bar ein- und ausschalten, und die Quelle (Teufel Streaming, Analog, Optisch, TV, HDMI) wählen. Die Raumfeld-Mediathek (Radio, Podcasts, lokale Musik) kann in der Standard-Oberfläche von Home Assistant durchsucht werden, abspielbare Einträge starten direkt.

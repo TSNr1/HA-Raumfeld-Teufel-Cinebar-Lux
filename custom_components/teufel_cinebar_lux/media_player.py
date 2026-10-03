@@ -18,7 +18,7 @@ from homeassistant.components.media_player import (
 from homeassistant.exceptions import HomeAssistantError
 from homeassistant.util import dt as dt_util
 
-from .definitions import INPUT_SOURCES, option_label, option_value
+from .definitions import INPUT_SOURCES, STREAMING_INPUT, option_label, option_value
 from .entity import device_info
 from .hub import POWER_KEY
 from .upnp import (
@@ -42,16 +42,19 @@ ITEM_TYPE = "raumfeld_item"
 ANNOUNCE_MAX_SECONDS = 180
 POWER_ON_WAIT = 4
 
-FEATURES = (
+TRANSPORT_FEATURES = (
     MediaPlayerEntityFeature.PLAY
     | MediaPlayerEntityFeature.PAUSE
     | MediaPlayerEntityFeature.STOP
     | MediaPlayerEntityFeature.NEXT_TRACK
     | MediaPlayerEntityFeature.PREVIOUS_TRACK
-    | MediaPlayerEntityFeature.VOLUME_SET
+    | MediaPlayerEntityFeature.SEEK
+)
+
+FEATURES = (
+    MediaPlayerEntityFeature.VOLUME_SET
     | MediaPlayerEntityFeature.VOLUME_STEP
     | MediaPlayerEntityFeature.VOLUME_MUTE
-    | MediaPlayerEntityFeature.SEEK
     | MediaPlayerEntityFeature.PLAY_MEDIA
     | MediaPlayerEntityFeature.BROWSE_MEDIA
     | MediaPlayerEntityFeature.SELECT_SOURCE
@@ -74,7 +77,6 @@ class CinebarMediaPlayer(MediaPlayerEntity):
     _attr_has_entity_name = True
     _attr_name = None
     _attr_should_poll = True
-    _attr_supported_features = FEATURES
     _attr_volume_step = 0.02
     _attr_media_content_type = MediaType.MUSIC
 
@@ -100,6 +102,16 @@ class CinebarMediaPlayer(MediaPlayerEntity):
         self.async_schedule_update_ha_state(True)
 
     # ---- Zustand ---------------------------------------------------------
+    @property
+    def _streaming(self) -> bool:
+        """Wiedergabe-Befehle gelten nur am Eingang „Teufel Streaming“ (bei TV/HDMI/Analog/Optisch gibt es nichts zu steuern)."""
+        source = self.hub.values.get("audio_input_source")
+        return source is None or source == STREAMING_INPUT
+
+    @property
+    def supported_features(self):
+        return FEATURES | TRANSPORT_FEATURES if self._streaming else FEATURES
+
     @property
     def available(self) -> bool:
         return self._available
@@ -164,6 +176,10 @@ class CinebarMediaPlayer(MediaPlayerEntity):
             self._volume = (await self._up.get_volume()) / 100
             self._muted = await self._up.get_mute()
             self._track, self._duration, self._position = {}, None, None
+            if not self._streaming:
+                self._available = True
+                self._state = MediaPlayerState.ON
+                return
             if transport in (STATE_PLAYING, STATE_PAUSED, STATE_TRANSITIONING):
                 info = await self._up.position_info()
                 items = parse_didl(info.get("TrackMetaData"))
@@ -192,7 +208,10 @@ class CinebarMediaPlayer(MediaPlayerEntity):
         try:
             await coro
         except Exception as err:  # noqa: BLE001
-            raise HomeAssistantError(f"Cinebar: {err}") from err
+            text = str(err)
+            if "701" in text or "not allowed" in text:
+                text = "Gerade nichts zum Steuern (am Eingang „Teufel Streaming“ erst etwas abspielen)"
+            raise HomeAssistantError(f"Cinebar: {text}") from err
         await self._refresh()
 
     # ---- Steuerung ---------------------------------------------------------
@@ -260,6 +279,9 @@ class CinebarMediaPlayer(MediaPlayerEntity):
                 if self._state == MediaPlayerState.OFF:
                     await self.hub.async_set_power(True)
                     await asyncio.sleep(POWER_ON_WAIT)
+                if not self._streaming:
+                    await self.hub.async_set("audio_input_source", STREAMING_INPUT)
+                    await asyncio.sleep(1)
                 await self._up.set_uri(uri, didl)
                 await self._up.play()
         except Exception as err:  # noqa: BLE001
@@ -272,6 +294,7 @@ class CinebarMediaPlayer(MediaPlayerEntity):
         if was_off:
             await self.hub.async_set_power(True)
             await asyncio.sleep(POWER_ON_WAIT)
+        before_source = self.hub.values.get("audio_input_source")
         before_state = await self._up.transport_info()
         before = await self._up.position_info()
         await self._up.set_uri(uri, didl)
@@ -289,8 +312,11 @@ class CinebarMediaPlayer(MediaPlayerEntity):
         if was_off:
             await self.hub.async_set_power(False)
             return
+        if before_source is not None and self.hub.values.get("audio_input_source") != before_source:
+            await self.hub.async_set("audio_input_source", before_source)
+            return
         old_uri = before.get("TrackURI")
-        if before_state in (STATE_PLAYING, STATE_PAUSED) and old_uri:
+        if before_source in (None, STREAMING_INPUT) and before_state in (STATE_PLAYING, STATE_PAUSED) and old_uri:
             await self._up.set_uri(old_uri, before.get("TrackMetaData", ""))
             if before_state == STATE_PLAYING:
                 await self._up.play()

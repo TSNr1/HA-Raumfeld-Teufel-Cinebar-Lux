@@ -165,6 +165,7 @@ class DefinitionsTest(unittest.TestCase):
         self.assertEqual(defs.INPUT_SOURCES[3], "TV")
         self.assertEqual(defs.INPUT_SOURCES[4], "HDMI")
         self.assertEqual(sorted(defs.INPUT_SOURCES), [0, 1, 2, 3, 4])
+        self.assertEqual(defs.INPUT_SOURCES[defs.STREAMING_INPUT], "Teufel Streaming")
         self.assertEqual(defs.INPUT_SOURCES[0], "Teufel Streaming")
         self.assertEqual(defs.INPUT_SOURCES[1], "Analog")
         self.assertEqual(defs.INPUT_SOURCES[2], "Optisch")
