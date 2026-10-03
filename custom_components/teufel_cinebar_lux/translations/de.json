@@ -39,6 +39,9 @@
       },
       "auto_on_opt": {
         "name": "Automatisch einschalten (optisch)"
+      },
+      "power_state": {
+        "name": "Ein/Aus"
       }
     },
     "select": {

@@ -24,6 +24,7 @@ def load(name):
 
 
 wamp = load("wamp")
+zones = load("zones")
 defs = load("definitions")
 UUID = "uuid:81a25d10-e759-42ba-840b-76624e4d00cd"
 
@@ -186,6 +187,19 @@ class DefinitionsTest(unittest.TestCase):
                 src = open(os.path.join(ROOT, name)).read()
                 self.assertNotIn("def value(", src, name)
 
+    def test_power_state_parsing(self):
+        xml = (
+            '<zoneConfig><zones><zone udn="uuid:z1"><room udn="uuid:r1" name="Kueche" powerState="ACTIVE">'
+            '<renderer udn="uuid:aaa"/></room></zone></zones>'
+            '<unassignedRooms><room udn="uuid:r2" name="Wohnzimmer" powerState="MANUAL_STANDBY">'
+            '<renderer udn="uuid:bbb"/></room></unassignedRooms></zoneConfig>'
+        )
+        self.assertEqual(zones.parse_power_state(xml, "uuid:aaa"), ("uuid:r1", "ACTIVE"))
+        self.assertEqual(zones.parse_power_state(xml, "uuid:bbb"), ("uuid:r2", "MANUAL_STANDBY"))
+        self.assertEqual(zones.parse_power_state(xml, "uuid:ccc"), (None, None))
+        self.assertEqual(zones.standby_path(True), "/leaveStandby")
+        self.assertEqual(zones.standby_path(False), "/enterManualStandby")
+
     def test_bluetooth(self):
         self.assertEqual(defs.bluetooth_state({"connected": False, "device": None, "pairing": False, "ready": True}), "ready")
         self.assertEqual(defs.bluetooth_state({"connected": False, "pairing": True, "ready": True}), "pairing")
@@ -197,6 +211,7 @@ class DefinitionsTest(unittest.TestCase):
             tr = json.load(open(os.path.join(ROOT, "translations", f"{lang}.json")))["entity"]
             for key in defs.SWITCHES:
                 self.assertIn(key, tr["switch"])
+            self.assertIn("power_state", tr["switch"])
             for key in defs.SELECTS:
                 self.assertIn(key, tr["select"])
             for key in defs.NUMBERS:

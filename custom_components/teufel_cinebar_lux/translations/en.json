@@ -39,6 +39,9 @@
       },
       "auto_on_opt": {
         "name": "Auto on (optical)"
+      },
+      "power_state": {
+        "name": "Power"
       }
     },
     "select": {

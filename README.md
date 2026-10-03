@@ -12,11 +12,13 @@ Ergänzt die Cinebar Lux um alle Einstellungen, die die Raumfeld-App kennt – l
 
 | Bereich | Entitäten |
 |---|---|
-| Hauptfunktionen | Eingang (Analog, Optisch, Teufel Streaming, TV, HDMI), Klang-Modus (Pur, Sprache, Nacht), Dynamore, Dynamikkompression (DRC), Lip Sync (0–100 ms) |
+| Hauptfunktionen | Ein/Aus (Standby), Eingang (Analog, Optisch, Teufel Streaming, TV, HDMI), Klang-Modus (Pur, Sprache, Nacht), Dynamore, Dynamikkompression (DRC), Lip Sync (0–100 ms) |
 | Konfiguration | Rear-Stereo-Upmix, HDMI-CEC, Auto-Einschalten (optisch/AUX), Auto-Standby, Subwoofer-Pegel/-Abstand/-Phase, Soundbar-Abstand, Rear-Pegel/-Abstand, LED- und Display-Helligkeit, Display-Sprache |
 | Sensoren | Bluetooth (verbunden / Pairing / bereit / aus, mit Gerätename), gekoppelte externe Lautsprecher, Hardware-ID, Verbindungsstatus |
 
 ## Technik
+
+Ein/Aus läuft über den Web-Dienst des Raumfeld-Hosts (Port 47365): `/leaveStandby` schaltet ein, `/enterManualStandby` aus. Der Zustand wird alle 20 Sekunden gelesen und gilt als „an“, solange der Raum aktiv ist (Eco- und manueller Standby gelten als „aus“).
 
 Die Raumfeld-App steuert die Bar über einen WebSocket (WAMP v2, Port 55555) am Raumfeld-Host. Jede Einstellung hat die Adresse `com.raumfeld.devices.<UUID>.settings.<name>`; gelesen wird mit `["get"]`, geschrieben mit `["set", wert]`, Änderungen kommen als Event.
 
@@ -27,4 +29,5 @@ Die Raumfeld-App steuert die Bar über einen WebSocket (WAMP v2, Port 55555) am 
 - **Lip Sync:** 0 bis 100 ms in 1-ms-Schritten, der Wert geht direkt an die Cinebar.
 - **Abstände:** Soundbar 0,3 bis 12 m bestätigt, die Rohwerte werden in Schritten von 0,1 m gelesen (46 = 4,6 m, ebenfalls bestätigt). Subwoofer- und Rear-Abstände nutzen dieselbe Skala.
 - **Wertebereiche:** Pegel und Helligkeiten sind vorsichtig geschätzt.
+- **Ein/Aus:** In der Praxis noch zu prüfen: Verhalten beim Einschalten aus dem Standby.
 - **Bluetooth-Pairing starten:** Der Aufruf wurde noch nicht mitgeschnitten, daher gibt es noch keine Taste dafür.
