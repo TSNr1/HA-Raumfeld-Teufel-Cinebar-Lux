@@ -10,6 +10,7 @@ from typing import Any
 import aiohttp
 
 from .definitions import ALL_SETTINGS
+from .upnp import UpnpClient
 from .zones import WEBSERVICE_PORT, parse_power_state, standby_path
 from .wamp import ROOMS_TOPIC, WampClient, device_topic
 
@@ -27,6 +28,7 @@ class CinebarHub:
         self.player_uuid = player_uuid
         self._session = session
         self.client = WampClient(session, host)
+        self.upnp = UpnpClient(session, host, player_uuid)
         self.room_udn: str | None = None
         self._power_task: asyncio.Task | None = None
         self.values: dict[str, Any] = {}
@@ -98,6 +100,8 @@ class CinebarHub:
         await self.async_update_power()
 
     def _on_value(self, setting: str, value: Any) -> None:
+        if setting in self.values and self.values[setting] == value:
+            return
         self.values[setting] = value
         for cb in list(self._listeners.get(setting, [])):
             cb()

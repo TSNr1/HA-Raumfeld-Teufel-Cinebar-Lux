@@ -9,7 +9,7 @@ from homeassistant.helpers.aiohttp_client import async_get_clientsession
 from .definitions import CONF_HOST, CONF_PLAYER
 from .hub import CinebarHub
 
-PLATFORMS = ["select", "switch", "number", "sensor", "binary_sensor"]
+PLATFORMS = ["media_player", "select", "switch", "number", "sensor", "binary_sensor"]
 
 type CinebarConfigEntry = ConfigEntry[CinebarHub]
 

@@ -8,6 +8,16 @@ from .definitions import CONF_NAME, DOMAIN
 from .hub import CinebarHub
 
 
+def device_info(hub: CinebarHub, entry) -> DeviceInfo:
+    return DeviceInfo(
+        identifiers={(DOMAIN, hub.player_uuid)},
+        name=entry.data.get(CONF_NAME, "Cinebar Lux"),
+        manufacturer="Teufel",
+        model="Cinebar Lux",
+        configuration_url=f"http://{hub.host}:47365/",
+    )
+
+
 class CinebarEntity(Entity):
     _attr_has_entity_name = True
     _attr_should_poll = False
@@ -17,13 +27,7 @@ class CinebarEntity(Entity):
         self.setting = setting
         self._attr_translation_key = setting.replace(".", "_")
         self._attr_unique_id = f"{hub.player_uuid}_{setting}"
-        self._attr_device_info = DeviceInfo(
-            identifiers={(DOMAIN, hub.player_uuid)},
-            name=entry.data.get(CONF_NAME, "Cinebar Lux"),
-            manufacturer="Teufel",
-            model="Cinebar Lux",
-            configuration_url=f"http://{hub.host}:47365/",
-        )
+        self._attr_device_info = device_info(hub, entry)
 
     @property
     def available(self) -> bool:

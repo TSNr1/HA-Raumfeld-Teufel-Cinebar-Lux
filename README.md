@@ -8,6 +8,21 @@ Ergänzt die Cinebar Lux um alle Einstellungen, die die Raumfeld-App kennt – l
 2. Installieren, Home Assistant neu starten.
 3. *Einstellungen → Geräte & Dienste → Integration hinzufügen → Teufel Cinebar Lux*, IP-Adresse des Raumfeld-Hosts eingeben (die Cinebar wird automatisch erkannt).
 
+## Media Player
+
+Die Cinebar erscheint als Media Player mit Status, Lautstärke, Stumm, Play/Pause/Stop, Titel vor/zurück, Springen, Titel-Infos mit Cover, Ein/Aus und Quellenwahl (Eingang: Teufel Streaming, Analog, Optisch, TV, HDMI). Die Standard-Oberfläche von Home Assistant zum Durchsuchen der Raumfeld-Mediathek (Radio, Podcasts, lokale Musik) ist eingebunden; abspielbare Einträge starten direkt.
+
+**Ansagen und Töne:** Der Media Player unterstützt `announce`. Damit funktionieren zum Beispiel `tts.speak` und `media_player.play_media` mit `announce: true`: Die Cinebar spielt die Ansage, danach wird der vorherige Titel wiederhergestellt (bestmöglich; bei Live-Streams kann das Springen zur alten Position entfallen). War die Bar aus, schaltet sie sich für die Ansage ein und danach wieder aus.
+
+```yaml
+action: tts.speak
+data:
+  media_player_entity_id: media_player.speaker_wohnzimmerteufellux
+  message: "Das Paket ist da."
+  options:
+    preferred_format: mp3
+```
+
 ## Entitäten
 
 | Bereich | Entitäten |
@@ -23,6 +38,8 @@ Ein/Aus läuft über den Web-Dienst des Raumfeld-Hosts (Port 47365): `/leaveStan
 Die Raumfeld-App steuert die Bar über einen WebSocket (WAMP v2, Port 55555) am Raumfeld-Host. Jede Einstellung hat die Adresse `com.raumfeld.devices.<UUID>.settings.<name>`; gelesen wird mit `["get"]`, geschrieben mit `["set", wert]`, Änderungen kommen als Event.
 
 ## Noch offen
+
+- **Media Player:** Gruppen mehrerer Räume und Snapshots gibt es nicht; die Integration ist für eine einzelne Bar gedacht. Spotify wird weiter über Spotify Connect (Spotify-App) gestartet, nicht über Home Assistant. Ob alle Mediathek-Einträge (zum Beispiel Wiedergabelisten als Ganzes) abspielbar sind, hängt vom Raumfeld-MediaServer ab.
 
 - **Eingänge:** 0 = Teufel Streaming, 1 = Analog, 2 = Optisch, 3 = TV, 4 = HDMI (gegengeprüft). Bluetooth und weitere Quellen fehlen noch; unbekannte Werte erscheinen als „Unbekannt (n)“ und lassen sich trotzdem setzen.
 - **Modi:** 0 = Pur, 1 = Sprache, 2 = Nacht.

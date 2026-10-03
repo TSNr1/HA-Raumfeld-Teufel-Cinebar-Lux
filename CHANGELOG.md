@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.2.0
+
+Die Integration ersetzt jetzt auch die Integration „Teufel Raumfeld“ für die Cinebar: Es gibt einen vollwertigen Media Player. Er zeigt Status, Lautstärke, Stumm, Titel, Interpret, Album, Cover und Position und steuert Play, Pause, Stop, Titel vor und zurück, Springen, Lautstärke und Stumm. Außerdem lässt sich die Bar ein- und ausschalten, und die Quelle (Teufel Streaming, Analog, Optisch, TV, HDMI) wählen. Die Raumfeld-Mediathek (Radio, Podcasts, lokale Musik) kann in der Standard-Oberfläche von Home Assistant durchsucht werden, abspielbare Einträge starten direkt.
+
+Ansagen und Töne laufen über den normalen `announce`-Weg von Home Assistant, zum Beispiel mit `tts.speak`. Die Bar spielt die Ansage und stellt danach den vorherigen Titel wieder her; war sie ausgeschaltet, schaltet sie sich nur für die Ansage ein. Alle Wiedergabe-Funktionen sind eine Eigenentwicklung nach dem offenen UPnP-Standard und nutzen keinen Code der Integration „Teufel Raumfeld“. Gruppen mehrerer Räume und Snapshots sind bewusst nicht enthalten. Intern werden Werte nur noch weitergemeldet, wenn sie sich ändern.
+
 ## 0.1.3
 
 Neuer Schalter „Ein/Aus“ für die Cinebar. Er nutzt denselben Weg wie die Integration „Teufel Raumfeld“: Einschalten ruft am Raumfeld-Host `/leaveStandby` auf, Ausschalten `/enterManualStandby`. Der Betriebszustand wird alle 20 Sekunden abgefragt, nach dem Schalten sofort. „An“ bedeutet aktiv, Eco-Standby und manueller Standby zählen als „aus“, den genauen Zustand zeigt das Attribut `power_state`. Die Tests prüfen die Auswertung der Raumliste.
